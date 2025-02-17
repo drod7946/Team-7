@@ -12,7 +12,7 @@ UDPServerSocket.bind((localIP, receivePort))  # Bind to the selected network int
 
 # Create the UDP socket for broadcasting
 broadcastSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-broadcastSocket.setsockopt(socket.SOL_SOCKETcd, socket.SO_BROADCAST, 1)
+broadcastSocket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 print(f"UDP Server up and listening on {localIP}:{receivePort}")
 
