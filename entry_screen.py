@@ -233,12 +233,18 @@ def show_entry_screen(root):
     canvas.create_text(740, 808, text="18", font=("Helvetica", 14), fill="white") # number
     canvas.create_rectangle(760, 790, 965, 825, fill="white", outline="white")
     canvas.create_rectangle(970, 790, 1250, 825, fill="white", outline="white")
+
+    def change_screen(event):
+    # Hide current canvas or content and display a new screen
+        canvas.pack_forget()  # Remove current screen
+        edit_screen.create_edit_screen()     # Show the new screen
     
     canvas.create_rectangle(425, 850, 875, 885, fill="grey", outline="grey")
     canvas.create_text(650, 867, text="Game Mode: Standard public mode", font=("Helvetica", 14, "bold"), fill="white")
     
     canvas.create_rectangle(0, 1050, 120, 1170, outline="grey") # check box
     canvas.create_text(60, 1100, text="F1\nEdit\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
+    canvas.tag_bind("F1_text", "<Button-1>", change_screen)
     
     canvas.create_rectangle(120, 1050, 240, 1170, outline="grey") # check box
     canvas.create_text(180, 1100, text="F2\nGame\nParameters", font=("Helvetica", 11), fill="lime", anchor="center") # number
