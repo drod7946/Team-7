@@ -7,6 +7,9 @@ entry_root = customtkinter.CTk()
 entry_root.title("Entry Terminal")
 entry_root.geometry("1350x900")
 
+def on_button_click(text):
+    print(f"Button {text} clicked")
+
 # Get the screen width and height
 screen_width = entry_root.winfo_screenwidth()
 screen_height = entry_root.winfo_screenheight()
@@ -236,29 +239,44 @@ canvas.create_rectangle(970, 790, 1250, 825, fill="white", outline="white")
 canvas.create_rectangle(425, 850, 875, 885, fill="grey", outline="grey")
 canvas.create_text(650, 867, text="Game Mode: Standard public mode", font=("Helvetica", 14, "bold"), fill="white")
 
-canvas.create_rectangle(0, 1050, 120, 1170, outline="grey") # check box
-canvas.create_text(60, 1100, text="F1\nEdit\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
+# canvas.create_rectangle(0, 1050, 120, 1170, outline="grey") # check box
+# canvas.create_text(60, 1100, text="F1\nEdit\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
 
-canvas.create_rectangle(120, 1050, 240, 1170, outline="grey") # check box
-canvas.create_text(180, 1100, text="F2\nGame\nParameters", font=("Helvetica", 11), fill="lime", anchor="center") # number
+# canvas.create_rectangle(120, 1050, 240, 1170, outline="grey") # check box
+# canvas.create_text(180, 1100, text="F2\nGame\nParameters", font=("Helvetica", 11), fill="lime", anchor="center") # number
 
-canvas.create_rectangle(240, 1050, 360, 1170, outline="grey") # check box
-canvas.create_text(300, 1100, text="F3\nStart\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
+# canvas.create_rectangle(240, 1050, 360, 1170, outline="grey") # check box
+# canvas.create_text(300, 1100, text="F3\nStart\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
 
-canvas.create_rectangle(600, 1050, 720, 1170, outline="grey") # check box
-canvas.create_text(660, 1100, text="F5\nPreEntered\nGames", font=("Helvetica", 11), fill="lime", anchor="center") # number
+# canvas.create_rectangle(600, 1050, 720, 1170, outline="grey") # check box
+# canvas.create_text(660, 1100, text="F5\nPreEntered\nGames", font=("Helvetica", 11), fill="lime", anchor="center") # number
 
-canvas.create_rectangle(1050, 1050, 1170, 1170, outline="grey") # check box
-canvas.create_text(1110, 1100, text="F7", font=("Helvetica", 11), fill="lime", anchor="center") # number
+# canvas.create_rectangle(1050, 1050, 1170, 1170, outline="grey") # check box
+# canvas.create_text(1110, 1100, text="F7", font=("Helvetica", 11), fill="lime", anchor="center") # number
 
-canvas.create_rectangle(1170, 1050, 1290, 1170, outline="grey") # check box
-canvas.create_text(1230, 1100, text="F8\nView\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
+# canvas.create_rectangle(1170, 1050, 1290, 1170, outline="grey") # check box
+# canvas.create_text(1230, 1100, text="F8\nView\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
 
-canvas.create_rectangle(1400, 1050, 1520, 1170, outline="grey") # check box
-canvas.create_text(1460, 1100, text="F10\nFlick\nSync", font=("Helvetica", 11), fill="lime", anchor="center") # number
+# canvas.create_rectangle(1400, 1050, 1520, 1170, outline="grey") # check box
+# canvas.create_text(1460, 1100, text="F10\nFlick\nSync", font=("Helvetica", 11), fill="lime", anchor="center") # number
 
-canvas.create_rectangle(1985, 1050, 2105, 1170, outline="grey") # check box
-canvas.create_text(2050, 1100, text="F12\nClear\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
+# canvas.create_rectangle(1985, 1050, 2105, 1170, outline="grey") # check box
+# canvas.create_text(2050, 1100, text="F12\nClear\nGame", font=("Helvetica", 11), fill="lime", anchor="center") # number
+
+buttons = [
+    (0, "F1\nEdit\nGame"),
+    (120, "F2\nGame\nParameters"),
+    (240, "F3\nStart\nGame"),
+    (600, "F5\nPreEntered\nGames"),
+    (1050, "F7"),
+    (1170, "F8\nView\nGame"),
+    (1400, "F10\nFlick\nSync"),
+    (1575, "F12\nClear\nGame")
+]
+
+for x, text in buttons:
+    btn = Button(frame, text=text, font=("Helvetica", 11), fg="lime", bg="black", relief="raised", command=lambda t=text: on_button_click(t))
+    btn.place(x=x, y=818, width=120, height=120)
 
 canvas.create_rectangle(0, 1170, 2110, 1210, fill="grey")  # Footer background
 canvas.create_text(1025, 1190, text="<Del> to Delete Player, <ins> to Manually Insert, or edit codename", font=("Helvetica", 12), fill="white")
