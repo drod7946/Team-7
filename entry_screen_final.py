@@ -21,7 +21,7 @@ center_y = int(screen_height / 2 - 900 / 2)
 # Set the window's position
 entry_root.geometry(f"1350x900+{center_x}+{center_y}")
 
-label = customtkinter.CTkLabel(entry_root, text="Edit Current Game", font=("Helvetica", 18, "bold"), text_color="blue")
+label = customtkinter.CTkLabel(entry_root, text="Edit Current Game", font=("Helvetica", 18, "bold"), text_color="#99AAFF")
 label.pack(pady=0)
 
 window_bg = entry_root.cget("bg")
@@ -77,6 +77,7 @@ buttons = [
     (1575, "F12\nClear\nGame")
 ]
 
+# Function for buttons added here
 for x, text in buttons:
     btn = Button(frame, text=text, font=("Helvetica", 11), fg="#00B300", bg="#1C2920", relief="raised", command=lambda t=text: on_button_click(t))
     btn.place(x=x, y=818, width=120, height=120)
