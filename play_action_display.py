@@ -42,6 +42,6 @@ def show_countdown(root):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry("800x600")  # Adjust size as needed
+    root.title("Game")
     show_countdown(root)
     root.mainloop()
