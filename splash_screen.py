@@ -1,7 +1,7 @@
 # splash_screen.py
 import tkinter as tk
 from PIL import Image, ImageTk
-import entry_screen
+import entry_screen_final
 
 def show_splash(root):
     splash = tk.Toplevel(root)
@@ -25,7 +25,7 @@ def show_splash(root):
 
 def show_entry_screen(root, splash):
     splash.destroy()  # Close splash screen
-    entry_screen.show_entry_screen(root)  # Open entry screen
+    entry_screen_final.show_entry_screen(root)  # Open entry screen
 
 if __name__ == "__main__":
     root = tk.Tk()  # Create the root window
