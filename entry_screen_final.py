@@ -7,6 +7,9 @@ entry_root = customtkinter.CTk()
 entry_root.title("Entry Terminal")
 entry_root.geometry("1350x900")
 
+def clear_entries():
+    print('Clearing all player entries')
+
 def on_button_click(text):
     print(f"Button {text} clicked")
 
@@ -27,6 +30,7 @@ def on_key_press(event):
         print("F10 pressed")
     if event.keysym == "F12":
         print("F12 pressed")
+        clear_entries()
 
 # Get the screen width and height
 screen_width = entry_root.winfo_screenwidth()
