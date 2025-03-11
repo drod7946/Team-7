@@ -10,6 +10,24 @@ entry_root.geometry("1350x900")
 def on_button_click(text):
     print(f"Button {text} clicked")
 
+def on_key_press(event):
+    if event.keysym == "F1":
+        print("F1 pressed")
+    if event.keysym == "F2":
+        print("F2 pressed")
+    if event.keysym == "F3":
+        print("F3 pressed")
+    if event.keysym == "F5":
+        print("F5 pressed")
+    if event.keysym == "F7":
+        print("F7 pressed")
+    if event.keysym == "F8":
+        print("F8 pressed")
+    if event.keysym == "F10":
+        print("F10 pressed")
+    if event.keysym == "F12":
+        print("F12 pressed")
+
 # Get the screen width and height
 screen_width = entry_root.winfo_screenwidth()
 screen_height = entry_root.winfo_screenheight()
@@ -81,6 +99,15 @@ buttons = [
 for x, text in buttons:
     btn = Button(frame, text=text, font=("Helvetica", 11), fg="#00B300", bg="#1C2920", relief="raised", command=lambda t=text: on_button_click(t))
     btn.place(x=x, y=818, width=120, height=120)
+
+entry_root.bind("<F1>", on_key_press)
+entry_root.bind("<F2>", on_key_press)
+entry_root.bind("<F3>", on_key_press)
+entry_root.bind("<F5>", on_key_press)
+entry_root.bind("<F7>", on_key_press)
+entry_root.bind("<F8>", on_key_press)
+entry_root.bind("<F10>", on_key_press)
+entry_root.bind("<F12>", on_key_press)
 
 canvas.create_rectangle(0, 1170, 2110, 1210, fill="#808A87")  # Footer background
 canvas.create_text(1025, 1190, text="<Del> to Delete Player, <ins> to Manually Insert, or edit codename", font=("Helvetica", 12), fill="#DCDDDE")
