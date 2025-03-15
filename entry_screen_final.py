@@ -1,12 +1,13 @@
 from tkinter import *
 import customtkinter
+import play_action_display
 
 def show_entry_screen(root):
     customtkinter.set_appearance_mode("dark")
-    entry_root = customtkinter.CTk()
+    entry_screen_window = customtkinter.CTkToplevel(root)
 
-    entry_root.title("Entry Terminal")
-    entry_root.geometry("1350x900")
+    entry_screen_window.title("Entry Terminal")
+    entry_screen_window.geometry("1350x900")
 
     def clear_entries():
         print('Clearing all player entries')
@@ -22,6 +23,7 @@ def show_entry_screen(root):
         if event.keysym == "F3":
             print("F3 pressed")
         if event.keysym == "F5":
+            play_action_display.show_countdownn()
             print("F5 pressed")
         if event.keysym == "F7":
             print("F7 pressed")
@@ -34,23 +36,23 @@ def show_entry_screen(root):
             clear_entries()
 
     # Get the screen width and height
-    screen_width = entry_root.winfo_screenwidth()
-    screen_height = entry_root.winfo_screenheight()
+    screen_width = entry_screen_window.winfo_screenwidth()
+    screen_height = entry_screen_window.winfo_screenheight()
 
     # Calculate the x and y coordinates to center the window
     center_x = int(screen_width / 2 - 1350 / 2)
     center_y = int(screen_height / 2 - 900 / 2)
 
     # Set the window's position
-    entry_root.geometry(f"1350x900+{center_x}+{center_y}")
+    entry_screen_window.geometry(f"1350x900+{center_x}+{center_y}")
 
-    label = customtkinter.CTkLabel(entry_root, text="Edit Current Game", font=("Helvetica", 18, "bold"), text_color="#99AAFF")
+    label = customtkinter.CTkLabel(entry_screen_window, text="Edit Current Game", font=("Helvetica", 18, "bold"), text_color="#99AAFF")
     label.pack(pady=0)
 
-    window_bg = entry_root.cget("bg")
+    window_bg = entry_screen_window.cget("bg")
     scale_factor = 0.8
 
-    frame = Frame(entry_root)
+    frame = Frame(entry_screen_window)
     frame.pack(fill="both", expand=True, anchor="n")
 
     canvas = Canvas(frame, width=int(1350 * scale_factor), height=int(900 * scale_factor), bg=window_bg, highlightthickness=0)
@@ -78,8 +80,8 @@ def show_entry_screen(root):
             canvas.create_rectangle(start_x, y_offset, start_x + 17, y_offset + 17, outline="#DCDDDE") # check box
             canvas.create_text(start_x + 35, y_offset + 8, text=str(i), font=("Helvetica", 14), fill="#DCDDDE") # number
             
-            entry1 = Entry(entry_root, font=("Helvetica", 14), bg="#DCDDDE", width=25)
-            entry2 = Entry(entry_root, font=("Helvetica", 14), bg="#DCDDDE", width=25)
+            entry1 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
+            entry2 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
             
             canvas.create_window(start_x + 50, y_offset + 8, window=entry1, anchor=W)
             canvas.create_window(start_x + 230, y_offset + 8, window=entry2, anchor=W)
@@ -105,18 +107,18 @@ def show_entry_screen(root):
         btn = Button(frame, text=text, font=("Helvetica", 11), fg="#00B300", bg="#1C2920", relief="raised", command=lambda t=text: on_button_click(t))
         btn.place(x=x, y=818, width=120, height=120)
 
-    entry_root.bind("<F1>", on_key_press)
-    entry_root.bind("<F2>", on_key_press)
-    entry_root.bind("<F3>", on_key_press)
-    entry_root.bind("<F5>", on_key_press)
-    entry_root.bind("<F7>", on_key_press)
-    entry_root.bind("<F8>", on_key_press)
-    entry_root.bind("<F10>", on_key_press)
-    entry_root.bind("<F12>", on_key_press)
+    entry_screen_window.bind("<F1>", on_key_press)
+    entry_screen_window.bind("<F2>", on_key_press)
+    entry_screen_window.bind("<F3>", on_key_press)
+    entry_screen_window.bind("<F5>", on_key_press)
+    entry_screen_window.bind("<F7>", on_key_press)
+    entry_screen_window.bind("<F8>", on_key_press)
+    entry_screen_window.bind("<F10>", on_key_press)
+    entry_screen_window.bind("<F12>", on_key_press)
 
     canvas.create_rectangle(0, 1170, 2110, 1210, fill="#808A87")  # Footer background
     canvas.create_text(1025, 1190, text="<Del> to Delete Player, <ins> to Manually Insert, or edit codename", font=("Helvetica", 12), fill="#DCDDDE")
 
     canvas.scale("all", 0, 0, scale_factor, scale_factor)
 
-    entry_root.mainloop()
+    entry_screen_window.protocol("WM_DELETE_WINDOW", entry_screen_window.quit)
