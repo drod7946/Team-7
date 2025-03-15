@@ -5,17 +5,19 @@ from entry_screen_final import show_entry_screen
 
 def show_splash(root):
     splash = tk.Toplevel(root)
-    splash.geometry("400x300")
+    splash.geometry("1600x900")
     splash.title("Splash Screen")
+    splash.resizable(True, True)
 
     # Load the image
     image = Image.open("logo.jpg")
-    image = image.resize((400, 300))
+    image = image.resize((1600, 900))
     photo = ImageTk.PhotoImage(image)
 
     label = tk.Label(splash, image=photo)
     label.image = photo 
     label.pack()
+    
     # Transition to the entry screen after 3 seconds
     splash.after(3000, start_entry_screen, root, splash)
 
