@@ -107,14 +107,14 @@ def show_entry_screen(root):
         btn = Button(frame, text=text, font=("Helvetica", 11), fg="#00B300", bg="#1C2920", relief="raised", command=lambda t=text: on_button_click(t))
         btn.place(x=x, y=818, width=120, height=120)
 
-    entry_screen_window.bind("<F1>", on_key_press)
-    entry_screen_window.bind("<F2>", on_key_press)
-    entry_screen_window.bind("<F3>", on_key_press)
-    entry_screen_window.bind("<F5>", on_key_press)
-    entry_screen_window.bind("<F7>", on_key_press)
-    entry_screen_window.bind("<F8>", on_key_press)
-    entry_screen_window.bind("<F10>", on_key_press)
-    entry_screen_window.bind("<F12>", on_key_press)
+    entry_screen_window.bind_all("<F1>", on_key_press)
+    entry_screen_window.bind_all("<F2>", on_key_press)
+    entry_screen_window.bind_all("<F3>", on_key_press)
+    entry_screen_window.bind_all("<F5>", on_key_press)
+    entry_screen_window.bind_all("<F7>", on_key_press)
+    entry_screen_window.bind_all("<F8>", on_key_press)
+    entry_screen_window.bind_all("<F10>", on_key_press)
+    entry_screen_window.bind_all("<F12>", on_key_press)
 
     canvas.create_rectangle(0, 1170, 2110, 1210, fill="#808A87")  # Footer background
     canvas.create_text(1025, 1190, text="<Del> to Delete Player, <ins> to Manually Insert, or edit codename", font=("Helvetica", 12), fill="#DCDDDE")
