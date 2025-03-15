@@ -10,4 +10,10 @@ Instructions:
 
 The program is ran with the main.py function, which will call the remaining programs as needed. Run in the terminal with python3 main.py. 
 
+The CustomTkinter, Psycopg2, and Pillow libraries are necessary to run the program. They should be installed with:
+
+pip install customtkinter
+pip install psycopg2-binary
+pip install Pillow
+
 In the future a separate window will be needed to run the python traffic generator, but that is not necessary at this time. 
