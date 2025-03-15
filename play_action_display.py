@@ -2,10 +2,17 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import os
 
-def show_play_action_display(root):
-    show_countdown(root)
+def show_play_action_display(countdown_window):
+    #Place play action display here
+    #Something that adjusts countdown_window or you can have the destroy function first and 
+    #create a new window with play_action_display = tk.Toplevel()
+    
+    countdown_window.destroy()
 
-def show_countdown(root):
+def show_countdown():
+    countdown_window = tk.Toplevel()
+    countdown_window.title("Game Starting In...")
+    
     folder_path = "countdown_images"
     
     # Load the background
@@ -13,7 +20,7 @@ def show_countdown(root):
     background_img = ImageTk.PhotoImage(background)
 
     # Create a Tkinter label for the display
-    display_label = tk.Label(root, image=background_img)
+    display_label = tk.Label(countdown_window, image=background_img)
     display_label.image = background_img  # Keep a reference to avoid garbage collection
     display_label.pack()
 
@@ -34,11 +41,16 @@ def show_countdown(root):
                 display_label.configure(image=countdown_img)
                 display_label.image = countdown_img  # Keep reference
 
-                root.after(1000, update_countdown, i - 1)  # Delay 1 second for each step
+                countdown_window.after(1000, update_countdown, i - 1)  # Delay 1 second for each step
             except FileNotFoundError:
                 print(f"Number image {i}.tif not found. Skipping...")
 
+        else:
+            show_play_action_display(countdown_window)
+            
     update_countdown(30)
+
+countdown_window.protocol("WM_DELETE_WINDOW", countdown_window.destroy)
 
 if __name__ == "__main__":
     root = tk.Tk()
