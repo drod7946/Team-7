@@ -8,8 +8,6 @@
 
 Instructions:
 
-2/16: The program is run using the run.bash script. This will execute the various python files in multiple terminal windows as necessary. Specific instructions for the UDP files are below. For the remainder of the code (start-up), excute the splash_screen.py file. It does not have any functionality but displays the entry screen for now.
+The program is ran with the main.py function, which will call the remaining programs as needed. Run in the terminal with python3 main.py. 
 
-For server.py and client.py : UDP Socket Configuration
-First run the server; it will prompt you to enter your IP address choice (which clients will use to connect), then enter it and the server will listen for incoming client messages. After running the server, run the client; it will prompt you to enter the same server IP address. Then the equipment ID to the server via UDP socket.
-The server receives the ID, broadcasts it to all connected clients, and sends an acknowledgment back to the client that send the ID. Each client listens for incoming broadast from the server and receives new equipment IDs added by clients. 
+In the future a separate window will be needed to run the python traffic generator, but that is not necessary at this time. 
