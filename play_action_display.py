@@ -8,6 +8,13 @@ def show_play_action_display(countdown_window):
     #create a new window with play_action_display = tk.Toplevel()
     
     countdown_window.destroy()
+    play_window = tk.Toplevel()
+    play_window.title("Play Action Display")
+    play_window.geometry("1600x900") 
+    play_window.resizable(True, True)  
+
+    # Placeholder for the Play Action Display Content 
+    tk.Label(play_window, text="PLAY ACTION DISPLAY", font=("Helvetica", 24, "bold")).pack(pady=20)
 
 def show_countdown():
     countdown_window = tk.Toplevel()
@@ -17,6 +24,7 @@ def show_countdown():
     
     # Load the background
     background = Image.open(os.path.join(folder_path, "background.tif"))
+    background = background.resize((1600, 900))
     background_img = ImageTk.PhotoImage(background)
 
     # Create a Tkinter label for the display
@@ -29,11 +37,12 @@ def show_countdown():
         if i >= 0:
             try:
                 number_img = Image.open(os.path.join(folder_path, f"{i}.tif"))
+                number_img = number_img.resize((150, 100)) 
                 countdown_screen = background.copy()
 
                 # Center the number image
-                x_offset = 171
-                y_offset = 204
+                x_offset = (1600 - number_img.width) // 2
+                y_offset = (900 - number_img.height) // 2
 
                 countdown_screen.paste(number_img, (x_offset, y_offset))
                 countdown_img = ImageTk.PhotoImage(countdown_screen)
