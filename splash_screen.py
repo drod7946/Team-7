@@ -1,7 +1,7 @@
 # splash_screen.py
 import tkinter as tk
 from PIL import Image, ImageTk
-import entry_screen_final
+from entry_screen_final import show_entry_screen
 
 def show_splash(root):
     splash = tk.Toplevel(root)
@@ -17,15 +17,15 @@ def show_splash(root):
     label.image = photo 
     label.pack()
     # Transition to the entry screen after 3 seconds
-    splash.after(3000, show_entry_screen, root, splash)
+    splash.after(3000, start_entry_screen, root, splash)
 
     splash.protocol("WM_DELETE_WINDOW", splash.quit)
 
     splash.mainloop()
 
-def show_entry_screen(root, splash):
+def start_entry_screen(root, splash):
     splash.destroy()  # Close splash screen
-    entry_screen_final.show_entry_screen(root)  # Open entry screen
+    show_entry_screen(root)  # Open entry screen
 
 if __name__ == "__main__":
     root = tk.Tk()  # Create the root window

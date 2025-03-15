@@ -50,7 +50,7 @@ def show_countdown():
             
     update_countdown(30)
 
-countdown_window.protocol("WM_DELETE_WINDOW", countdown_window.destroy)
+    countdown_window.protocol("WM_DELETE_WINDOW", countdown_window.destroy)
 
 if __name__ == "__main__":
     root = tk.Tk()
