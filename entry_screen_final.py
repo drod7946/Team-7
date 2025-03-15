@@ -7,14 +7,17 @@ def show_entry_screen(root):
     entry_screen_window = customtkinter.CTkToplevel(root)
 
     entry_screen_window.title("Entry Terminal")
-    entry_screen_window.geometry("1350x900")
+    entry_screen_window.geometry("1600x900")  
+    entry_screen_window.resizable(True, True)
 
     def clear_entries():
         print('Clearing all player entries')
 
     def on_button_click(text):
         print(f"Button {text} clicked")
-
+        if text == "F5\nPreEntered\nGames":
+            entry_screen_window.destroy()  
+            show_countdown()  
     def on_key_press(event):
         if event.keysym == "F1":
             print("F1 pressed")
@@ -23,8 +26,9 @@ def show_entry_screen(root):
         if event.keysym == "F3":
             print("F3 pressed")
         if event.keysym == "F5":
+            print("F5 pressed - Closing Entry Terminal & Launching Play Action Display")
+            entry_screen_window.destroy()
             show_countdown()
-            print("F5 pressed")
         if event.keysym == "F7":
             print("F7 pressed")
         if event.keysym == "F8":
@@ -40,11 +44,11 @@ def show_entry_screen(root):
     screen_height = entry_screen_window.winfo_screenheight()
 
     # Calculate the x and y coordinates to center the window
-    center_x = int(screen_width / 2 - 1350 / 2)
+    center_x = int(screen_width / 2 - 1600 / 2)
     center_y = int(screen_height / 2 - 900 / 2)
 
     # Set the window's position
-    entry_screen_window.geometry(f"1350x900+{center_x}+{center_y}")
+    entry_screen_window.geometry(f"1600x900+{center_x}+{center_y}")
 
     label = customtkinter.CTkLabel(entry_screen_window, text="Edit Current Game", font=("Helvetica", 18, "bold"), text_color="#99AAFF")
     label.pack(pady=0)
@@ -55,30 +59,26 @@ def show_entry_screen(root):
     frame = Frame(entry_screen_window)
     frame.pack(fill="both", expand=True, anchor="n")
 
-    canvas = Canvas(frame, width=int(1350 * scale_factor), height=int(900 * scale_factor), bg=window_bg, highlightthickness=0)
+    canvas = Canvas(frame, width=int(1600 * scale_factor), height=int(900 * scale_factor), bg=window_bg, highlightthickness=0)
     canvas.pack(fill="both", expand=True, anchor="n")
 
-    # red box (x1, y1, x2, y2) ; #DCDDDE = darkish white
+    # Red team box (x1, y1, x2, y2) ; #DCDDDE = darkish white
     canvas.create_rectangle(440, 10, 1040, 850, fill="#B30000", outline="#B30000")
     canvas.create_rectangle(640, 20, 840, 60, outline="#DCDDDE")
     canvas.create_text(740, 40, text="RED TEAM", font=("Helvetica", 14), fill="#DCDDDE")
 
-    # green box
+    # Green Team box
     canvas.create_rectangle(1050, 10, 1650, 850, fill="#008000", outline="#008000") 
     canvas.create_rectangle(1250, 20, 1450, 60, outline="#DCDDDE")
     canvas.create_text(1350, 40, text="GREEN TEAM", font=("Helvetica", 14), fill="#DCDDDE")
-
-    # grey rectangle
-    canvas.create_rectangle(825, 850, 1275, 885, fill="#808A87", outline="#808A87")
-    canvas.create_text(1050, 867, text="Game Mode: Standard public mode", font=("Helvetica", 14, "bold"), fill="#DCDDDE")
 
     entry_fields = []
 
     def create_input_fields(start_x, start_y):
         for i in range(19):
             y_offset = start_y + (i * 40)
-            canvas.create_rectangle(start_x, y_offset, start_x + 17, y_offset + 17, outline="#DCDDDE") # check box
-            canvas.create_text(start_x + 35, y_offset + 8, text=str(i), font=("Helvetica", 14), fill="#DCDDDE") # number
+            canvas.create_rectangle(start_x, y_offset, start_x + 17, y_offset + 17, outline="#DCDDDE") # checkbox
+            canvas.create_text(start_x + 35, y_offset + 8, text=str(i), font=("Helvetica", 14), fill="#DCDDDE") # Number
             
             entry1 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
             entry2 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
