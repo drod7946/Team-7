@@ -23,7 +23,7 @@ def show_entry_screen(root):
         if event.keysym == "F3":
             print("F3 pressed")
         if event.keysym == "F5":
-            show_countdownn()
+            show_countdown()
             print("F5 pressed")
         if event.keysym == "F7":
             print("F7 pressed")
