@@ -63,6 +63,6 @@ def show_countdown():
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.title("Game")
-    show_countdown(root)
+    root.withdraw() 
+    show_countdown()
     root.mainloop()
