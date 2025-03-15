@@ -1,6 +1,6 @@
 from tkinter import *
 import customtkinter
-import play_action_display
+from play_action_display import show_countdown
 
 def show_entry_screen(root):
     customtkinter.set_appearance_mode("dark")
@@ -23,7 +23,7 @@ def show_entry_screen(root):
         if event.keysym == "F3":
             print("F3 pressed")
         if event.keysym == "F5":
-            play_action_display.show_countdownn()
+            show_countdownn()
             print("F5 pressed")
         if event.keysym == "F7":
             print("F7 pressed")
