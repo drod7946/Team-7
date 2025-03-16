@@ -12,9 +12,30 @@ def show_play_action_display(countdown_window):
     play_window.title("Play Action Display")
     play_window.geometry("1600x900") 
     play_window.resizable(True, True)  
+    play_window.configure(bg="black")
 
-    # Placeholder for the Play Action Display Content 
-    tk.Label(play_window, text="PLAY ACTION DISPLAY", font=("Helvetica", 24, "bold")).pack(pady=20)
+    tk.Label(play_window, text="PLAY ACTION DISPLAY", font=("Helvetica", 24, "bold"), fg="white").pack(pady=20)
+
+    team_frame = tk.Frame(play_window, bg="black")
+    team_frame.pack(pady=20)
+
+    team_frame.columnconfigure(0, weight=1)
+    team_frame.columnconfigure(1, weight=1)
+
+    red_team = tk.Label(team_frame, text="Red Team", font=("Helvetica", 20, "bold"), fg="red")
+    red_team.grid(row=0, column=0, padx=50, pady=10)
+
+    green_team = tk.Label(team_frame, text="Green Team", font=("Helvetica", 20, "bold"), fg="green")
+    green_team.grid(row=0, column=1, padx=50, pady=10)
+
+    red_team_members = ["Player 1", "Player 2", "Player 3"]
+    for i, player in enumerate(red_team_members, start=1):
+        tk.Label(team_frame, text=player, font=("Helvetica", 16), fg="white").grid(row=i, column=0, padx=50, pady=5)
+
+    green_team_members = ["Player A", "Player B", "Player C"]
+    for i, player in enumerate(green_team_members, start=1):
+        tk.Label(team_frame, text=player, font=("Helvetica", 16), fg="white").grid(row=i, column=1, padx=50, pady=5)
+    
 
 def show_countdown():
     countdown_window = tk.Toplevel()
