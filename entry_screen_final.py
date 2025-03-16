@@ -44,8 +44,8 @@ def show_entry_screen(root):
         # print('Clearing all player entries')
         print('Clearing all player entries')
         for entry1, entry2 in entry_fields:
-            entry1.delete(0, tk.END)
-            entry2.delete(0, tk.END)
+            entry1.delete(0, END)
+            entry2.delete(0, END)
 
     def on_button_click(text):
         print(f"Button {text} clicked")
