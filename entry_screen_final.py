@@ -12,12 +12,15 @@ def show_entry_screen(root):
 
     def clear_entries():
         print('Clearing all player entries')
+        
 
     def on_button_click(text):
         print(f"Button {text} clicked")
         if text == "F5\nPreEntered\nGames":
             entry_screen_window.destroy()  
             show_countdown()  
+        if text == "F12\nClear\nGame":
+            clear_entries()
     def on_key_press(event):
         if event.keysym == "F1":
             print("F1 pressed")
