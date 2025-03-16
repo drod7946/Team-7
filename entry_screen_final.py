@@ -97,13 +97,13 @@ def show_entry_screen(root):
     create_input_fields(1060, 88) # Green Team Fields
 
     buttons = [
-        (0, "F1\nEdit\nGame"),
-        (120, "F2\nGame\nParameters"),
-        (240, "F3\nStart\nGame"),
-        (600, "F5\nPreEntered\nGames"),
-        (1050, "F7"),
-        (1170, "F8\nView\nGame"),
-        (1400, "F10\nFlick\nSync"),
+        #(0, "F1\nEdit\nGame"),
+        #(120, "F2\nGame\nParameters"),
+        #(240, "F3\nStart\nGame"),
+        (600, "F5\nStart\nGame"),
+        #(1050, "F7"),
+        #(1170, "F8\nView\nGame"),
+        #(1400, "F10\nFlick\nSync"),
         (1575, "F12\nClear\nGame")
     ]
 
