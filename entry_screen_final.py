@@ -40,16 +40,9 @@ def show_entry_screen(root):
     entry_screen_window.title("Entry Terminal")
     entry_screen_window.geometry("1350x900")
 
-    def clear_entries():
-        # print('Clearing all player entries')
-        print('Clearing all player entries')
-        for entry1, entry2 in entry_fields:
-            entry1.delete(0, END)
-            entry2.delete(0, END)
-
     def on_button_click(text):
         print(f"Button {text} clicked")
-                    
+        
     def on_key_pressed(event):
         if event.keysym == "Return":
             for entry1, entry2 in entry_fields:
@@ -58,6 +51,9 @@ def show_entry_screen(root):
                 if player_id and codename:
                     insert_player(player_id, codename)
                     print(f"Inserted {player_id}, {codename} into the database.")
+                    entry1.delete(0, tk.END)
+                    entry2.delete(0, tk.END)
+                    print(f"Player ID: {player_id}, Codename: {codename}")
                 else:
                     print("Both Player ID and Codename are required.")
        
@@ -79,6 +75,15 @@ def show_entry_screen(root):
         if event.keysym == "F12":
             print("F12 pressed")
             clear_entries()
+            
+            
+    entry_screen_window.bind("<Return>", on_key_pressed)
+    		
+	def clear_entries():
+		print('Clearing all player entries')
+		for entry1, entry2 in entry_fields:
+			entry1.delete(0, tk.END)
+			entry2.delete(0, tk.END)
 
     # Get the screen width and height
     screen_width = entry_screen_window.winfo_screenwidth()
@@ -167,13 +172,3 @@ def show_entry_screen(root):
     canvas.scale("all", 0, 0, scale_factor, scale_factor)
 
     entry_screen_window.protocol("WM_DELETE_WINDOW", entry_screen_window.quit)
-    
-# Main function
-def main():
-    root = customtkinter.CTk()  # Initialize the main Tkinter root window
-    show_entry_screen(root)  # Call the function to set up the entry screen
-    root.mainloop()  # Run the Tkinter event loop
-
-# Entry point of the script
-if __name__ == "__main__":
-    main()
