@@ -12,7 +12,9 @@ def show_entry_screen(root):
 
     def clear_entries():
         print('Clearing all player entries')
-        
+        for entry1, entry2 in entry_fields:
+            entry1.delete(0, END)
+            entry2.delete(0, END)
 
     def on_button_click(text):
         print(f"Button {text} clicked")
