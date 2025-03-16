@@ -50,17 +50,17 @@ def show_entry_screen(root):
     def on_button_click(text):
         print(f"Button {text} clicked")
                     
-    def on_key_press(event):
-	    if event.keysym == "Return":
-		    for entry1, entry2 in entry_fields:
-			    player_id = entry1.get().strip()  # Player ID input
-			    codename = entry2.get().strip()  # Codename input
-			    if player_id and codename:
-				    insert_player(player_id, codename)
-				    print(f"Inserted {player_id}, {codename} into the database.")
-			    else:
-				    print("Both Player ID and Codename are required.")	
-        
+    def on_key_pressed(event):
+        if event.keysym == "Return":
+            for entry1, entry2 in entry_fields:
+                player_id = entry1.get().strip()
+                codename = entry2.get().strip()
+                if player_id and codename:
+                    insert_player(player_id, codename)
+                    print(f"Inserted {player_id}, {codename} into the database.")
+                else:
+                    print("Both Player ID and Codename are required.")
+       
         if event.keysym == "F1":
             print("F1 pressed")
         if event.keysym == "F2":
@@ -152,14 +152,14 @@ def show_entry_screen(root):
         btn = Button(frame, text=text, font=("Helvetica", 11), fg="#00B300", bg="#1C2920", relief="raised", command=lambda t=text: on_button_click(t))
         btn.place(x=    x, y=818, width=120, height=120)
 
-    entry_screen_window.bind_all("<F1>", on_key_press)
-    entry_screen_window.bind_all("<F2>", on_key_press)
-    entry_screen_window.bind_all("<F3>", on_key_press)
-    entry_screen_window.bind_all("<F5>", on_key_press)
-    entry_screen_window.bind_all("<F7>", on_key_press)
-    entry_screen_window.bind_all("<F8>", on_key_press)
-    entry_screen_window.bind_all("<F10>", on_key_press)
-    entry_screen_window.bind_all("<F12>", on_key_press)
+    entry_screen_window.bind_all("<F1>", on_key_pressed)
+    entry_screen_window.bind_all("<F2>", on_key_pressed)
+    entry_screen_window.bind_all("<F3>", on_key_pressed)
+    entry_screen_window.bind_all("<F5>", on_key_pressed)
+    entry_screen_window.bind_all("<F7>", on_key_pressed)
+    entry_screen_window.bind_all("<F8>", on_key_pressed)
+    entry_screen_window.bind_all("<F10>", on_key_pressed)
+    entry_screen_window.bind_all("<F12>", on_key_pressed)
 
     canvas.create_rectangle(0, 1170, 2110, 1210, fill="#808A87")  # Footer background
     canvas.create_text(1025, 1190, text="<Del> to Delete Player, <ins> to Manually Insert, or edit codename", font=("Helvetica", 12), fill="#DCDDDE")
@@ -167,3 +167,13 @@ def show_entry_screen(root):
     canvas.scale("all", 0, 0, scale_factor, scale_factor)
 
     entry_screen_window.protocol("WM_DELETE_WINDOW", entry_screen_window.quit)
+    
+# Main function
+def main():
+    root = customtkinter.CTk()  # Initialize the main Tkinter root window
+    show_entry_screen(root)  # Call the function to set up the entry screen
+    root.mainloop()  # Run the Tkinter event loop
+
+# Entry point of the script
+if __name__ == "__main__":
+    main()
