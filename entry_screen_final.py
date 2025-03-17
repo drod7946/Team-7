@@ -1,5 +1,6 @@
 from tkinter import *
 import customtkinter
+import tkinter as tk
 import psycopg2
 from play_action_display import show_countdown
 
@@ -7,11 +8,11 @@ from play_action_display import show_countdown
 def connect_to_db():
     try:
         connection = psycopg2.connect(
-            dbname="photon",  # Your database name
-            user="your_user",  # Replace with your PostgreSQL username
-            password="your_password",  # Replace with your PostgreSQL password
-            host="localhost",  # Use your VM's IP if needed
-            port="5432"  # Default PostgreSQL port
+            dbname="photon",
+            user="student", 
+            password="student", 
+            host="localhost", 
+            port="5432"
         )
         return connection
     except Exception as e:
@@ -42,7 +43,8 @@ def show_entry_screen(root):
 
     def on_button_click(text):
         print(f"Button {text} clicked")
-        
+    
+    # hardware ID code    
     def on_key_pressed(event):
         if event.keysym == "Return":
             for entry1, entry2 in entry_fields:
@@ -54,8 +56,6 @@ def show_entry_screen(root):
                     entry1.delete(0, tk.END)
                     entry2.delete(0, tk.END)
                     print(f"Player ID: {player_id}, Codename: {codename}")
-                else:
-                    print("Both Player ID and Codename are required.")
        
         if event.keysym == "F1":
             print("F1 pressed")
@@ -79,11 +79,11 @@ def show_entry_screen(root):
             
     entry_screen_window.bind("<Return>", on_key_pressed)
     		
-	def clear_entries():
-		print('Clearing all player entries')
-		for entry1, entry2 in entry_fields:
-			entry1.delete(0, tk.END)
-			entry2.delete(0, tk.END)
+    def clear_entries():
+        print('Clearing all player entries')
+        for entry1, entry2 in entry_fields:
+            entry1.delete(0, tk.END)
+            entry2.delete(0, tk.END)
 
     # Get the screen width and height
     screen_width = entry_screen_window.winfo_screenwidth()
