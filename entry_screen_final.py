@@ -171,4 +171,4 @@ def show_entry_screen(root):
 
     canvas.scale("all", 0, 0, scale_factor, scale_factor)
 
-    entry_screen_window.protocol("WM_DELETE_WINDOW", root.quit)
+    entry_screen_window.protocol("WM_DELETE_WINDOW", root.destroy)
