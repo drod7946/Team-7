@@ -17,3 +17,4 @@ pip install customtkinter
 pip install psycopg2-binary
 ```
 In the future a separate window will be needed to run the python traffic generator, but that is not necessary at this time. 
+To input the hardware ID's into the database. Enter the equipment ID first then the player ID (name). Then click enter and the data will be added into the database.
