@@ -43,6 +43,10 @@ def show_entry_screen(root):
 
     def on_button_click(text):
         print(f"Button {text} clicked")
+        if text == "F5\nPreEntered\nGames":
+            show_countdown()
+        if text == "F12\nClear\nGame":
+            clear_entries()
     
     # hardware ID code    
     def on_key_pressed(event):
