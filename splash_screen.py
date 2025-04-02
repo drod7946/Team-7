@@ -17,8 +17,8 @@ def show_splash(root):
     else:
         screen_y =screen_height
 
-    window_x = int(screen_x * 0.9)
-    window_y = int(screen_y * 0.9)
+    window_x = int(screen_x)
+    window_y = int(screen_y)
 
     center_x = (screen_x - window_x) // 2
     center_y = (screen_y - window_y) // 2
