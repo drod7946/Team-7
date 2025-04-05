@@ -45,11 +45,10 @@ def show_countdown():
     
     # Load the background
     background = Image.open(os.path.join(folder_path, "background.tif"))
-    background = background.resize((1600, 900))
     background_img = ImageTk.PhotoImage(background)
 
     # Create a Tkinter label for the display
-    display_label = tk.Label(countdown_window, image=background_img)
+    display_label = tk.Label(countdown_window, image=background_img, anchor="center")
     display_label.image = background_img  # Keep a reference to avoid garbage collection
     display_label.pack()
 
@@ -58,14 +57,25 @@ def show_countdown():
         if i >= 0:
             try:
                 number_img = Image.open(os.path.join(folder_path, f"{i}.tif"))
-                number_img = number_img.resize((150, 100)) 
                 countdown_screen = background.copy()
 
                 # Center the number image
-                x_offset = (1600 - number_img.width) // 2
-                y_offset = (900 - number_img.height) // 2
-
+                x_offset = 171
+                y_offset = 204
                 countdown_screen.paste(number_img, (x_offset, y_offset))
+                
+                # Now resize the entire combined image to the desired window size
+                screen_width = countdown_window.winfo_screenwidth()
+                screen_height = countdown_window.winfo_screenheight()
+
+                # Example: scale to 60% width and 70% height
+                window_x = int(screen_width * 0.6)
+                window_y = int(screen_height * 0.7)
+
+                countdown_window.geometry(f"{window_x}x{window_y}+{(screen_width - window_x) // 2}+{(screen_height - window_y) // 2}")
+
+                countdown_screen = countdown_screen.resize((window_x, window_y), Image.LANCZOS)
+                
                 countdown_img = ImageTk.PhotoImage(countdown_screen)
 
                 display_label.configure(image=countdown_img)
