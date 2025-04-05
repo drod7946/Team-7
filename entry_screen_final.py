@@ -131,8 +131,8 @@ def show_entry_screen(root):
             canvas.create_rectangle(start_x, y_offset, start_x + 17, y_offset + 17, outline="#DCDDDE") # check box
             canvas.create_text(start_x + 35, y_offset + 8, text=str(i), font=("Helvetica", 14), fill="#DCDDDE") # number
             
-            entry1 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=40)
-            entry2 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=40)
+            entry1 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
+            entry2 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
             
             canvas.create_window(start_x + 50, y_offset + 8, window=entry1, anchor=W)
             canvas.create_window(start_x + 250, y_offset + 8, window=entry2, anchor=W)
@@ -158,7 +158,7 @@ def show_entry_screen(root):
     # Function for buttons added here
     for x, text in buttons:
         btn = Button(frame, text=text, font=("Helvetica", 11), fg="#00B300", bg="#1C2920", relief="raised", command=lambda t=text: on_button_click(t))
-        btn.place(x=x, y=740, width=120, height=120)
+        btn.place(x=x, y=710, width=120, height=120)
 
     entry_screen_window.bind_all("<F1>", on_key_pressed)
     entry_screen_window.bind_all("<F2>", on_key_pressed)
@@ -169,8 +169,8 @@ def show_entry_screen(root):
     entry_screen_window.bind_all("<F10>", on_key_pressed)
     entry_screen_window.bind_all("<F12>", on_key_pressed)
 
-    canvas.create_rectangle(0, 860, 1350, 900, fill="#808A87")  # Footer background
-    canvas.create_text(675, 880, text="<Del> to Delete Player, <ins> to Manually Insert, or edit codename", font=("Helvetica", 12), fill="#DCDDDE")
+    canvas.create_rectangle(0, 830, 1350, 870, fill="#808A87")  # Footer background
+    canvas.create_text(675, 850, text="<Del> to Delete Player, <ins> to Manually Insert, or edit codename", font=("Helvetica", 12), fill="#DCDDDE")
 
     canvas.scale("all", 0, 0, 1.0, 1.0)
 
