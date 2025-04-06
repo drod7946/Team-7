@@ -2,6 +2,48 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import os
 
+def show_return(play_window):
+    def on_yes():
+        restart_window.destroy()
+        play_window.destroy()
+
+    def on_no():
+        restart_window.destroy()
+
+    restart_window = tk.Toplevel()
+    restart_window.title("Exit Game?")
+
+    window_width = 250
+    window_height= 100
+
+    screen_width = restart_window.winfo_screenwidth()
+    screen_height = restart_window.winfo_screenheight()
+
+    # Calculate position x, y to center the window
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+
+    restart_window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+    label = tk.Label(restart_window, text="Do you want to return to the entry screen?")
+    label.pack(pady=10)
+
+    button_frame = tk.Frame(restart_window)
+    button_frame.pack()
+
+    yes_button = tk.Button(button_frame, text="Yes", width=10, command=on_yes)
+    yes_button.grid(row=0, column=0, padx=10)
+
+    no_button = tk.Button(button_frame, text="No", width=10, command=on_no)
+    no_button.grid(row=0, column=1, padx=10)
+
+    # Bind 'y' and 'n' keys
+    restart_window.bind("<KeyPress-y>", lambda event: on_yes())
+    restart_window.bind("<KeyPress-n>", lambda event: on_no())
+
+    restart_window.protocol("WM_DELETE_WINDOW", restart_window.destroy)
+    
+
 def show_play_action_display(countdown_window):
     #Place play action display here
     #Something that adjusts countdown_window or you can have the destroy function first and 
@@ -36,6 +78,24 @@ def show_play_action_display(countdown_window):
     for i, player in enumerate(green_team_members, start=1):
         tk.Label(team_frame, text=player, font=("Helvetica", 16), fg="white").grid(row=i, column=1, padx=50, pady=5)
     
+    # Add a label for the countdown timer
+    timer_label = tk.Label(play_window, font=("Helvetica", 48, "bold"), fg="white", bg="black")
+    timer_label.pack(pady=50)
+
+    def update_timer(label, time_left):
+        # Update the timer label with the time left
+        minutes = time_left // 60
+        seconds = time_left % 60
+        label.config(text=f"{minutes:02}:{seconds:02}")
+        
+        # If time is not up, continue updating
+        if time_left > 0:
+            label.after(1000, update_timer, label, time_left - 1)  # Update every second
+        else:
+            show_return(play_window)
+
+    # Set initial time for 6:00 (360 seconds)
+    update_timer(timer_label, 360)
 
 def show_countdown():
     countdown_window = tk.Toplevel()
