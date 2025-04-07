@@ -125,7 +125,9 @@ def show_entry_screen(root):
         print('Clearing all player entries')
         for entry1, entry2 in entry_fields:
             entry1.delete(0, tk.END)
+            entry2.config(state="normal")
             entry2.delete(0, tk.END)
+            entry2.config(state="readonly")
 
     def change_ip_popup():
         current_ip = get_target_ip()
