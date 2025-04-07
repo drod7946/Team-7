@@ -1,1 +1,3 @@
+Never run python-pg.py
 
+If you want to reset the PostregSQL DB, then run pg-delete.py file. 
