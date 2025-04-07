@@ -11,7 +11,11 @@ from tkinter import simpledialog, messagebox
 def connect_to_db():
     try:
         connection = psycopg2.connect(
-            dbname="photon"
+            dbname="photon",
+            user="student", 
+            password="student", 
+            host="localhost", 
+            port="5432"
         )
         return connection
     except Exception as e:
@@ -29,6 +33,22 @@ def insert_player(player_id, codename):
             print(f"Inserted Player ID: {player_id}, Codename: {codename}")
         except Exception as e:
             print(f"Error inserting player: {e}")
+        finally:
+            cursor.close()
+            connection.close()
+
+def get_player_codename(player_id):
+    connection = connect_to_db()
+    if connection:
+        cursor = connection.cursor()
+        try:
+            cursor.execute("SELECT codename FROM players WHERE id = %s;", (player_id,))
+            result = cursor.fetchone()
+            # for return, make a new function for a pop up to add new player?
+            return result[0] if result else None
+        except Exception as e:
+            print(f"Error fetching player: {e}")
+            return None
         finally:
             cursor.close()
             connection.close()
@@ -62,6 +82,22 @@ def show_entry_screen(root):
                     entry1.delete(0, tk.END)
                     entry2.delete(0, tk.END)
                     print(f"Player ID: {player_id}, Codename: {codename}")
+                if player_id:
+                    existing_codename = get_player_codename(player_id)
+                    if existing_codename:
+                        entry2.delete(0, tk.END)
+                        entry2.insert(0, existing_codename)
+                        print(f"Existing player found: {player_id} → {existing_codename}")
+                    elif not codename:
+                        # Prompt user for codename
+                        new_codename = simpledialog.askstring("New Player", f"Enter codename for new player ID: {player_id}")
+                        if new_codename:
+                            insert_player(player_id, new_codename)
+                            entry2.insert(0, new_codename)
+                            print(f"New player added: {player_id} → {new_codename}")
+                    elif codename:
+                        insert_player(player_id, codename)
+                        print(f"Inserted new player: {player_id} → {codename}")
        
         if event.keysym == "F1":
             print("F1 pressed")
@@ -152,7 +188,7 @@ def show_entry_screen(root):
             canvas.create_text(start_x + 35, y_offset + 8, text=str(i), font=("Helvetica", 14), fill="#DCDDDE") # number
             
             entry1 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
-            entry2 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
+            entry2 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25, state="readonly")
             
             canvas.create_window(start_x + 50, y_offset + 8, window=entry1, anchor=W)
             canvas.create_window(start_x + 250, y_offset + 8, window=entry2, anchor=W)
