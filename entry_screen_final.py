@@ -12,10 +12,10 @@ def connect_to_db():
     try:
         connection = psycopg2.connect(
             dbname="photon",
-            user="student", 
-            password="student", 
-            host="localhost", 
-            port="5432"
+            # user="student", 
+            # password="student", 
+            # host="localhost", 
+            # port="5432"
         )
         return connection
     except Exception as e:
@@ -76,24 +76,23 @@ def show_entry_screen(root):
             for entry1, entry2 in entry_fields:
                 player_id = entry1.get().strip()
                 codename = entry2.get().strip()
-                if player_id and codename:
-                    insert_player(player_id, codename)
-                    print(f"Inserted {player_id}, {codename} into the database.")
-                    entry1.delete(0, tk.END)
-                    entry2.delete(0, tk.END)
-                    print(f"Player ID: {player_id}, Codename: {codename}")
                 if player_id:
                     existing_codename = get_player_codename(player_id)
                     if existing_codename:
+                        #Makes 2nd textbox editable temporarily
+                        entry2.config(state="normal")
                         entry2.delete(0, tk.END)
                         entry2.insert(0, existing_codename)
+                        entry2.config(state="readonly")
                         print(f"Existing player found: {player_id} → {existing_codename}")
                     elif not codename:
                         # Prompt user for codename
                         new_codename = simpledialog.askstring("New Player", f"Enter codename for new player ID: {player_id}")
                         if new_codename:
                             insert_player(player_id, new_codename)
+                            entry2.config(state="normal")
                             entry2.insert(0, new_codename)
+                            entry2.config(state="readonly")
                             print(f"New player added: {player_id} → {new_codename}")
                     elif codename:
                         insert_player(player_id, codename)
