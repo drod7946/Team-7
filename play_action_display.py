@@ -1,6 +1,39 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
+import pygame
+import threading
+import time
+import random
+
+pygame.mixer.init()
+music_folder = "photon_tracks"
+
+def choose_track(folder):
+    tracks = [f for f in os.listdir(folder)]
+
+    if not tracks:
+        print('Error, no track found')
+        return None
+
+    return os.path.join(folder, random.choice(tracks))
+
+
+def play_audio(file_path):
+    time.sleep(17)
+    if not os.path.exists(file_path):
+        print('file not found')
+        return
+
+    pygame.mixer.music.load(file_path)
+    pygame.mixer.music.play()
+
+    while pygame.mixer.music.get_busy():
+        time.sleep(0.1)
+
+def start_audio():
+    track = choose_track(music_folder)
+    threading.Thread(target=play_audio, args=(track,), daemon=True).start()
 
 def show_return(play_window):
     def on_yes():
@@ -98,6 +131,7 @@ def show_play_action_display(countdown_window):
     update_timer(timer_label, 360)
 
 def show_countdown():
+    start_audio()
     countdown_window = tk.Toplevel()
     countdown_window.title("Game Starting In...")
     
