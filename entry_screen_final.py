@@ -4,6 +4,9 @@ import tkinter as tk
 import psycopg2
 from play_action_display import show_countdown
 
+from udp_utils import set_target_ip, get_target_ip
+from tkinter import simpledialog, messagebox
+
 # Database connection function
 def connect_to_db():
     try:
@@ -43,8 +46,11 @@ def show_entry_screen(root):
             show_countdown()
         if text == "F12\nClear\nGame":
             clear_entries()
+        if text == "F7\nChange\nIP Address":
+            change_ip_popup()
     
-    # hardware ID code    
+    # hardware ID code  
+    # I think this where we should make a new function to determine what happens for adding a new player  
     def on_key_pressed(event):
         if event.keysym == "Return":
             for entry1, entry2 in entry_fields:
@@ -67,6 +73,7 @@ def show_entry_screen(root):
             show_countdown()
             print("F5 pressed")
         if event.keysym == "F7":
+            change_ip_popup()
             print("F7 pressed")
         if event.keysym == "F8":
             print("F8 pressed")
@@ -84,6 +91,19 @@ def show_entry_screen(root):
         for entry1, entry2 in entry_fields:
             entry1.delete(0, tk.END)
             entry2.delete(0, tk.END)
+
+    def change_ip_popup():
+        current_ip = get_target_ip()
+        new_ip = simpledialog.askstring("Set Target IP", f"Current IP: {current_ip}\nEnter new target IP address:")
+
+        if new_ip:
+            # Basic validation: IP should have 4 octets
+            parts = new_ip.strip().split(".")
+            if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
+                set_target_ip(new_ip.strip())
+                messagebox.showinfo("IP Address Set", f"New IP Address: {new_ip.strip()}")
+            else:
+                messagebox.showerror("Invalid IP", "Please enter a valid IPv4 address.")
 
     # Get the screen width and height
     screen_width = entry_screen_window.winfo_screenwidth()
@@ -149,7 +169,7 @@ def show_entry_screen(root):
         (120, "F2\nGame\nParameters"),
         (318, "F3\nStart\nGame"),
         (516, "F5\nPreEntered\nGames"),
-        (714, "F7"),
+        (714, "F7\nChange\nIP Address"),
         (912, "F8\nView\nGame"),
         (1110, "F10\nFlick\nSync"),
         (1230, "F12\nClear\nGame")
