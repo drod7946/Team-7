@@ -10,11 +10,14 @@ Instructions:
 
 The program is ran with the main.py function, which will call the remaining programs as needed. Run in the terminal with python3 main.py. 
 
-The CustomTkinter, Psycopg2, and Pillow libraries are necessary to run the program. They should be installed with:
+Tkinter needs to be installed. The CustomTkinter, Psycopg2, Pillow, and PyGame libraries are necessary to run the program, and are installed through pip. They should be installed with:
 ```
+sudo apt install python3-venv python3-pip
+sudo apt-get install python3-tk
 pip install Pillow
 pip install customtkinter
 pip install psycopg2-binary
+pip install pygame
 ```
 In the future a separate window will be needed to run the python traffic generator, but that is not necessary at this time. 
 
