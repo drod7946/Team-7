@@ -176,7 +176,7 @@ def show_countdown():
         else:
             show_play_action_display(countdown_window)
             
-    update_countdown(1)
+    update_countdown(30)
 
     countdown_window.protocol("WM_DELETE_WINDOW", countdown_window.destroy)
 
