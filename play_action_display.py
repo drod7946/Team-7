@@ -18,7 +18,6 @@ def choose_track(folder):
 
     return os.path.join(folder, random.choice(tracks))
 
-
 def play_audio(file_path):
     time.sleep(17)
     if not os.path.exists(file_path):
@@ -76,7 +75,6 @@ def show_return(play_window):
 
     restart_window.protocol("WM_DELETE_WINDOW", restart_window.destroy)
     
-
 def show_play_action_display(countdown_window):
     #Place play action display here
     #Something that adjusts countdown_window or you can have the destroy function first and 
@@ -88,47 +86,43 @@ def show_play_action_display(countdown_window):
     play_window.geometry("1600x900") 
     play_window.resizable(True, True)  
     play_window.configure(bg="black")
+	
+    canvas = tk.Canvas(play_window, width=1900, height=1000, bg="black", highlightthickness=0)
+    canvas.pack(pady=20)
 
-    tk.Label(play_window, text="PLAY ACTION DISPLAY", font=("Helvetica", 24, "bold"), fg="white").pack(pady=20)
+    canvas.create_text(950, 25, text="PLAY ACTION DISPLAY", font=("Helvetica", 24, "bold"), fill="white")
 
-    team_frame = tk.Frame(play_window, bg="black")
-    team_frame.pack(pady=20)
+    # Red box (x1, y1, x2, y2)
+    canvas.create_rectangle(0, 0, 600, 987, fill="red", outline="white", width=3)
 
-    team_frame.columnconfigure(0, weight=1)
-    team_frame.columnconfigure(1, weight=1)
-
-    red_team = tk.Label(team_frame, text="Red Team", font=("Helvetica", 20, "bold"), fg="red")
-    red_team.grid(row=0, column=0, padx=50, pady=10)
-
-    green_team = tk.Label(team_frame, text="Green Team", font=("Helvetica", 20, "bold"), fg="green")
-    green_team.grid(row=0, column=1, padx=50, pady=10)
+    # Green box
+    canvas.create_rectangle(1300, 0, 1900, 987, fill="green", outline="white", width=3)
+	
+    timer_text = canvas.create_text(950, 950, text="06:00", font=("Helvetica", 48, "bold"), fill="white")
+    canvas.pack(pady=20)
+    
+    canvas.create_text(300, 50, text="Red Team", font=("Helvetica", 24, "bold"), fill="white")
+    canvas.create_text(1600, 50, text="Green Team", font=("Helvetica", 24, "bold"), fill="white")
 
     red_team_members = ["Player 1", "Player 2", "Player 3"]
     for i, player in enumerate(red_team_members, start=1):
-        tk.Label(team_frame, text=player, font=("Helvetica", 16), fg="white").grid(row=i, column=0, padx=50, pady=5)
-
+        canvas.create_text(300, 100 + (i * 40), text=player, font=("Helvetica", 16), fill="white")
+    
     green_team_members = ["Player A", "Player B", "Player C"]
     for i, player in enumerate(green_team_members, start=1):
-        tk.Label(team_frame, text=player, font=("Helvetica", 16), fg="white").grid(row=i, column=1, padx=50, pady=5)
-    
-    # Add a label for the countdown timer
-    timer_label = tk.Label(play_window, font=("Helvetica", 48, "bold"), fg="white", bg="black")
-    timer_label.pack(pady=50)
+        canvas.create_text(1600, 100 + (i * 40), text=player, font=("Helvetica", 16), fill="white")
 
-    def update_timer(label, time_left):
-        # Update the timer label with the time left
+    def update_timer(canvas, timer_text, time_left):
         minutes = time_left // 60
         seconds = time_left % 60
-        label.config(text=f"{minutes:02}:{seconds:02}")
+        canvas.itemconfig(timer_text, text=f"{minutes:02}:{seconds:02}")
         
-        # If time is not up, continue updating
         if time_left > 0:
-            label.after(1000, update_timer, label, time_left - 1)  # Update every second
+            canvas.after(1000, update_timer, canvas, timer_text, time_left - 1)
         else:
             show_return(play_window)
 
-    # Set initial time for 6:00 (360 seconds)
-    update_timer(timer_label, 360)
+    update_timer(canvas, timer_text, 360)
 
 def show_countdown():
     start_audio()
@@ -182,7 +176,7 @@ def show_countdown():
         else:
             show_play_action_display(countdown_window)
             
-    update_countdown(30)
+    update_countdown(1)
 
     countdown_window.protocol("WM_DELETE_WINDOW", countdown_window.destroy)
 
