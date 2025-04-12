@@ -89,8 +89,8 @@ def show_play_action_display(countdown_window):
     play_window.resizable(True, True)  
     play_window.configure(bg="black")
 
-    canvas = tk.Canvas(play_window, width=1900, height=1000, bg="black", highlightthickness=0)
-    canvas.pack(pady=20)
+    canvas = tk.Canvas(play_window, bg="black", highlightthickness=0)
+    canvas.pack(fill=tk.BOTH, expand=True)
 
     canvas.create_text(950, 25, text="PLAY ACTION DISPLAY", font=("Helvetica", 24, "bold"), fill="white")
 
@@ -106,6 +106,9 @@ def show_play_action_display(countdown_window):
     canvas.create_text(300, 50, text="Red Team", font=("Helvetica", 24, "bold"), fill="white")
     canvas.create_text(1600, 50, text="Green Team", font=("Helvetica", 24, "bold"), fill="white")
 
+    action_box = tk.Text(play_window, width=80, height=200, wrap=tk.WORD, font=("Helvetica", 14), bg="white", fg="black")
+    canvas.create_window(950, 500, window=action_box)
+
     red_team_members = ["Player 1", "Player 2", "Player 3"]
     for i, player in enumerate(red_team_members, start=1):
         canvas.create_text(300, 100 + (i * 40), text=player, font=("Helvetica", 16), fill="white")
@@ -114,10 +117,10 @@ def show_play_action_display(countdown_window):
     for i, player in enumerate(green_team_members, start=1):
         canvas.create_text(1600, 100 + (i * 40), text=player, font=("Helvetica", 16), fill="white")
 
-    action_box = tk.Text(play_window, width=50, height=10, wrap=tk.WORD, font=("Helvetica", 14), bg="black", fg="white")
-    action_box.pack(pady=20)
-
     def handle_incoming_message(msg):
+        play_window.after(0, process_message, msg)
+
+    def process_message(msg):
         try:
             parts = msg.strip().split(":")
             if len(parts) != 2:
@@ -143,6 +146,7 @@ def show_play_action_display(countdown_window):
             print(error_msg)
             action_box.insert(tk.END, error_msg + "\n")
             action_box.see(tk.END)
+
     receiver = UDPReceiver(callback=handle_incoming_message)
     receiver.start()
     
