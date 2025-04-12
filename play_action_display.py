@@ -4,7 +4,7 @@ import os
 import pygame
 import threading
 import time
-from udp_utils import send_udp_message, get_target_ip
+from udp_utils import UDPReceiver, send_udp_message, get_target_ip
 import random
 
 pygame.mixer.init()
@@ -88,7 +88,7 @@ def show_play_action_display(countdown_window):
     play_window.bind("<Escape>", lambda event: play_window.attributes('-fullscreen', False))
     play_window.resizable(True, True)  
     play_window.configure(bg="black")
-	
+
     canvas = tk.Canvas(play_window, width=1900, height=1000, bg="black", highlightthickness=0)
     canvas.pack(pady=20)
 
@@ -113,6 +113,40 @@ def show_play_action_display(countdown_window):
     green_team_members = ["Player A", "Player B", "Player C"]
     for i, player in enumerate(green_team_members, start=1):
         canvas.create_text(1600, 100 + (i * 40), text=player, font=("Helvetica", 16), fill="white")
+
+    action_box = tk.Text(play_window, width=50, height=10, wrap=tk.WORD, font=("Helvetica", 14), bg="black", fg="white")
+    action_box.pack(pady=20)
+
+    def handle_incoming_message(msg):
+        try:
+            parts = msg.strip().split(":")
+            if len(parts) != 2:
+                print(f"Invalid message format: {msg}")
+                return
+
+            id1, id2 = parts
+            log_message = ""
+
+            if id2 in ["43", "53"]:
+                log_message = f"Player {id1} hit base {id2}"
+            else:
+                log_message = f"Player {id1} hit {id2}"
+
+            print(log_message)
+            action_box.insert(tk.END, log_message + "\n")
+            action_box.see(tk.END)  # Auto-scroll
+
+            send_udp_message('200', get_target_ip(), 7500)
+
+        except Exception as e:
+            error_msg = f"Error handling message: {e}"
+            print(error_msg)
+            action_box.insert(tk.END, error_msg + "\n")
+            action_box.see(tk.END)
+    receiver = UDPReceiver(callback=handle_incoming_message)
+    receiver.start()
+    
+    send_udp_message("202", get_target_ip(), 7500)
 
     def update_timer(canvas, timer_text, time_left):
         minutes = time_left // 60
@@ -180,7 +214,6 @@ def show_countdown():
 
         else:
             show_play_action_display(countdown_window)
-            send_udp_message("202", get_target_ip(), 7500)
             
     update_countdown(30)
 
