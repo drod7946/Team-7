@@ -3,7 +3,6 @@ import splash_screen  # Import the splash screen functionality
 from udp_utils import UDPReceiver, send_udp_message, get_target_ip
 
 def handle_incoming_message(msg):
-    send_udp_message('200', get_target_ip(), 7501)
     try:
         parts = msg.strip().split(":")
         if len(parts) != 2:
@@ -14,9 +13,11 @@ def handle_incoming_message(msg):
 
         if id2 in ["43", "53"]:  # special base hit codes
             print(f"Player {id1} hit base {id2}")
+            send_udp_message('200', get_target_ip(), 7501)
             # trigger base hit animation or update scoreboard
         else:
             print(f"Player {id1} hit {id2}")
+            send_udp_message('200', get_target_ip(), 7501)
             # trigger tag/interaction logic
     except Exception as e:
         print(f"Error handling message: {e}")
