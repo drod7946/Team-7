@@ -1,8 +1,9 @@
 import tkinter as tk
 import splash_screen  # Import the splash screen functionality
-from udp_utils import UDPReceiver
+from udp_utils import UDPReceiver, send_udp_message, get_target_ip
 
 def handle_incoming_message(msg):
+    send_udp_message('200', get_target_ip(), 7501)
     try:
         parts = msg.strip().split(":")
         if len(parts) != 2:
@@ -19,6 +20,7 @@ def handle_incoming_message(msg):
             # trigger tag/interaction logic
     except Exception as e:
         print(f"Error handling message: {e}")
+
 
 def main():
     receiver = UDPReceiver(callback=handle_incoming_message)
