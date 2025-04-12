@@ -84,7 +84,8 @@ def show_play_action_display(countdown_window):
     countdown_window.destroy()
     play_window = tk.Toplevel()
     play_window.title("Play Action Display")
-    play_window.geometry("1600x900") 
+    play_window.attributes('-fullscreen', True)
+    play_window.bind("<Escape>", lambda event: play_window.attributes('-fullscreen', False))
     play_window.resizable(True, True)  
     play_window.configure(bg="black")
 	
