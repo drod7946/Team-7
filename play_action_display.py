@@ -106,7 +106,7 @@ def show_play_action_display(countdown_window):
     canvas.create_text(300, 50, text="Red Team", font=("Helvetica", 24, "bold"), fill="white")
     canvas.create_text(1600, 50, text="Green Team", font=("Helvetica", 24, "bold"), fill="white")
 
-    action_box = tk.Text(play_window, width=50, height=50, wrap=tk.WORD, font=("Helvetica", 14), bg="white", fg="black")
+    action_box = tk.Text(play_window, width=50, height=30, wrap=tk.WORD, font=("Helvetica", 14), bg="white", fg="black")
     canvas.create_window(950, 500, window=action_box)
 
     red_team_members = ["Player 1", "Player 2", "Player 3"]
