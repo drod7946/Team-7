@@ -18,7 +18,7 @@ def choose_track(folder):
     return os.path.join(folder, random.choice(tracks))
 
 def play_audio(file_path):
-    time.sleep(17)
+    time.sleep(15)
     if not os.path.exists(file_path):
         print('file not found')
         return
