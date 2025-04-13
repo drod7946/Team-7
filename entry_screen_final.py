@@ -3,26 +3,32 @@ import customtkinter
 import tkinter as tk
 import psycopg2
 from play_action_display import show_countdown
-
 from udp_utils import set_target_ip, get_target_ip
 from tkinter import simpledialog, messagebox
 
+
 # Database connection function
+#def connect_to_db():
+  #  try:
+        # Using keyword arguments for clarity, uncomment to activate credentials
+   #     connection = psycopg2.connect(
+     #       dbname="photon",
+          #  user="student",  # Uncommented
+          #  password="student",  # Uncommented
+          #  host="localhost",  # Uncommented
+          #  port="5432"  # Uncommented
+       # )
+       # return connection
+
 def connect_to_db():
     try:
-        connection = psycopg2.connect(
-            dbname="photon",
-            # user="student", 
-            # password="student", 
-            # host="localhost", 
-            # port="5432"
-        )
+        connection = psycopg2.connect("dbname=photon user=student password=student host=localhost port=5432")
         return connection
     except Exception as e:
         print(f"Error connecting to the database: {e}")
         return None
 
-# Function to insert player and equipment ID into database
+# Function to insert player equipment ID into database
 def insert_player(player_id, codename):
     connection = connect_to_db()
     if connection:
@@ -44,7 +50,6 @@ def get_player_codename(player_id):
         try:
             cursor.execute("SELECT codename FROM players WHERE id = %s;", (player_id,))
             result = cursor.fetchone()
-            # for return, make a new function for a pop up to add new player?
             return result[0] if result else None
         except Exception as e:
             print(f"Error fetching player: {e}")
@@ -53,88 +58,78 @@ def get_player_codename(player_id):
             cursor.close()
             connection.close()
 
+
+# ENTRY SCREEN UI
+
 def show_entry_screen(root):
     customtkinter.set_appearance_mode("dark")
     entry_screen_window = customtkinter.CTkToplevel(root)
-
     entry_screen_window.title("Entry Terminal")
     entry_screen_window.geometry("1350x900")
 
-    def on_button_click(text):
-        print(f"Button {text} clicked")
-        if text == "F5\nPreEntered\nGames":
-            show_countdown()
-        if text == "F12\nClear\nGame":
-            clear_entries()
-        if text == "F7\nChange\nIP Address":
-            change_ip_popup()
-    
-    # hardware ID code  
-    # I think this where we should make a new function to determine what happens for adding a new player  
-    def on_key_pressed(event):
-        if event.keysym == "Return":
-            for entry1, entry2 in entry_fields:
-                player_id = entry1.get().strip()
-                codename = entry2.get().strip()
-                if player_id:
-                    existing_codename = get_player_codename(player_id)
-                    if existing_codename:
-                        #Makes 2nd textbox editable temporarily
-                        entry2.config(state="normal")
-                        entry2.delete(0, tk.END)
-                        entry2.insert(0, existing_codename)
-                        entry2.config(state="readonly")
-                        print(f"Existing player found: {player_id} → {existing_codename}")
-                    elif not codename:
-                        # Prompt user for codename
-                        new_codename = simpledialog.askstring("New Player", f"Enter codename for new player ID: {player_id}")
-                        if new_codename:
-                            insert_player(player_id, new_codename)
-                            entry2.config(state="normal")
-                            entry2.insert(0, new_codename)
-                            entry2.config(state="readonly")
-                            print(f"New player added: {player_id} → {new_codename}")
-                    elif codename:
-                        insert_player(player_id, codename)
-                        print(f"Inserted new player: {player_id} → {codename}")
-       
-        if event.keysym == "F1":
-            print("F1 pressed")
-        if event.keysym == "F2":
-            print("F2 pressed")
-        if event.keysym == "F3":
-            print("F3 pressed")
-        if event.keysym == "F5":
-            show_countdown()
-            print("F5 pressed")
-        if event.keysym == "F7":
-            change_ip_popup()
-            print("F7 pressed")
-        if event.keysym == "F8":
-            print("F8 pressed")
-        if event.keysym == "F10":
-            print("F10 pressed")
-        if event.keysym == "F12":
-            print("F12 pressed")
-            clear_entries()
-            
-            
-    entry_screen_window.bind("<Return>", on_key_pressed)
-    		
+    entry_fields = []
+    player_dict = {}
+
+    def handle_player_entry():
+        for entry1, entry2, team in entry_fields:
+            player_id = entry1.get().strip()
+            codename = entry2.get().strip()
+
+            if not player_id or player_id in player_dict:
+                continue
+
+            db_name = get_player_codename(player_id)
+            if db_name:
+                codename = db_name
+            elif not codename:
+                codename = simpledialog.askstring("New Player", f"Enter codename for new player ID: {player_id}")
+                if not codename:
+                    continue
+                insert_player(player_id, codename)
+            else:
+                insert_player(player_id, codename)
+
+            entry2.config(state="normal")
+            entry2.delete(0, tk.END)
+            entry2.insert(0, codename)
+            entry2.config(state="readonly")
+            player_dict[player_id] = {"name": codename, "team": team}
+
+    def manual_insert():
+        player_id = simpledialog.askstring("Manual Insert", "Enter Player ID:")
+        if not player_id:
+            return
+        codename = simpledialog.askstring("Manual Insert", f"Enter codename for Player {player_id}:")
+        if not codename:
+            return
+
+        team = "red" if len([p for p in player_dict.values() if p['team'] == 'red']) < 16 else "green"
+
+        if get_player_codename(player_id) is None:
+            insert_player(player_id, codename)
+
+        player_dict[player_id] = {"name": codename, "team": team}
+
+        for entry1, entry2, t in entry_fields:
+            if entry1.get().strip() == "":
+                entry1.insert(0, player_id)
+                entry2.config(state="normal")
+                entry2.insert(0, codename)
+                entry2.config(state="readonly")
+                break
+
     def clear_entries():
-        print('Clearing all player entries')
-        for entry1, entry2 in entry_fields:
+        for entry1, entry2, _ in entry_fields:
             entry1.delete(0, tk.END)
             entry2.config(state="normal")
             entry2.delete(0, tk.END)
             entry2.config(state="readonly")
+        player_dict.clear()
 
     def change_ip_popup():
         current_ip = get_target_ip()
         new_ip = simpledialog.askstring("Set Target IP", f"Current IP: {current_ip}\nEnter new target IP address:")
-
         if new_ip:
-            # Basic validation: IP should have 4 octets
             parts = new_ip.strip().split(".")
             if len(parts) == 4 and all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
                 set_target_ip(new_ip.strip())
@@ -142,64 +137,83 @@ def show_entry_screen(root):
             else:
                 messagebox.showerror("Invalid IP", "Please enter a valid IPv4 address.")
 
-    # Get the screen width and height
-    screen_width = entry_screen_window.winfo_screenwidth()
-    screen_height = entry_screen_window.winfo_screenheight()
+    def on_button_click(text):
+        print(f"Button {text} clicked")
+        if text == "F5\nPreEntered\nGames":
+            handle_player_entry()
+            show_countdown(player_dict)
+        elif text == "F12\nClear\nGame":
+            clear_entries()
+        elif text == "F7\nChange\nIP Address":
+            change_ip_popup()
 
-    # Calculate the x and y coordinates to center the window
-    center_x = int(screen_width / 2 - 1350 / 2)
-    center_y = int(screen_height / 2 - 900 / 2)
+    def on_key_pressed(event):
+        if event.keysym == "Return":
+            print("Enter pressed")
+            handle_player_entry()
+        elif event.keysym == "Insert":
+            print("Insert pressed")
+            manual_insert()
+        elif event.keysym == "F1": print("F1 pressed")
+        elif event.keysym == "F2": print("F2 pressed")
+        elif event.keysym == "F3": print("F3 pressed")
+        elif event.keysym == "F5":
+            print("F5 pressed")
+            handle_player_entry()
+            show_countdown(player_dict)
+        elif event.keysym == "F7":
+            print("F7 pressed")
+            change_ip_popup()
+        elif event.keysym == "F8": print("F8 pressed")
+        elif event.keysym == "F10": print("F10 pressed")
+        elif event.keysym == "F12":
+            print("F12 pressed")
+            clear_entries()
 
-    # Set the window's position
-    entry_screen_window.geometry(f"1350x900+{center_x}+{center_y}")
-    entry_screen_window.update()
+    entry_screen_window.bind("<Return>", on_key_pressed)
+    entry_screen_window.bind_all("<F1>", on_key_pressed)
+    entry_screen_window.bind_all("<F2>", on_key_pressed)
+    entry_screen_window.bind_all("<F3>", on_key_pressed)
+    entry_screen_window.bind_all("<F5>", on_key_pressed)
+    entry_screen_window.bind_all("<F7>", on_key_pressed)
+    entry_screen_window.bind_all("<F8>", on_key_pressed)
+    entry_screen_window.bind_all("<F10>", on_key_pressed)
+    entry_screen_window.bind_all("<F12>", on_key_pressed)
+    entry_screen_window.bind_all("<Insert>", on_key_pressed)
 
     label = customtkinter.CTkLabel(entry_screen_window, text="Edit Current Game", font=("Helvetica", 18, "bold"), text_color="#99AAFF")
     label.pack(pady=0)
 
-    window_bg = entry_screen_window.cget("bg")
-    #scale_factor = 0.8
-
     frame = Frame(entry_screen_window)
     frame.pack(fill="both", expand=True, anchor="n")
 
-    canvas = Canvas(frame, width=int(1350), height=int(900), bg=window_bg, highlightthickness=0)
+    canvas = Canvas(frame, width=1350, height=900, bg=entry_screen_window.cget("bg"), highlightthickness=0)
     canvas.pack(fill="both", expand=True, anchor="n")
 
-    # red box (x1, y1, x2, y2) ; #DCDDDE = darkish white
     canvas.create_rectangle(40, 10, 640, 600, fill="#B30000", outline="#B30000")
     canvas.create_rectangle(240, 20, 440, 60, outline="#DCDDDE")
     canvas.create_text(340, 40, text="RED TEAM", font=("Helvetica", 14), fill="#DCDDDE")
 
-    # green box
-    canvas.create_rectangle(710, 10, 1310, 600, fill="#008000", outline="#008000") 
+    canvas.create_rectangle(710, 10, 1310, 600, fill="#008000", outline="#008000")
     canvas.create_rectangle(910, 20, 1110, 60, outline="#DCDDDE")
     canvas.create_text(1010, 40, text="GREEN TEAM", font=("Helvetica", 14), fill="#DCDDDE")
 
-    # grey rectangle
     canvas.create_rectangle(445, 600, 905, 635, fill="#808A87", outline="#808A87")
     canvas.create_text(675, 617, text="Game Mode: Standard public mode", font=("Helvetica", 14, "bold"), fill="#DCDDDE")
 
-    entry_fields = []
-
-    def create_input_fields(start_x, start_y):
+    def create_input_fields(start_x, start_y, team):
         for i in range(16):
             y_offset = start_y + (i * 30)
-            canvas.create_rectangle(start_x, y_offset, start_x + 17, y_offset + 17, outline="#DCDDDE") # check box
-            canvas.create_text(start_x + 35, y_offset + 8, text=str(i), font=("Helvetica", 14), fill="#DCDDDE") # number
-            
+            canvas.create_rectangle(start_x, y_offset, start_x + 17, y_offset + 17, outline="#DCDDDE")
+            canvas.create_text(start_x + 35, y_offset + 8, text=str(i), font=("Helvetica", 14), fill="#DCDDDE")
             entry1 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25)
             entry2 = Entry(entry_screen_window, font=("Helvetica", 14), bg="#DCDDDE", width=25, state="readonly")
-            
             canvas.create_window(start_x + 50, y_offset + 8, window=entry1, anchor=W)
             canvas.create_window(start_x + 250, y_offset + 8, window=entry2, anchor=W)
-            
-            entry_fields.append((entry1, entry2))
+            entry_fields.append((entry1, entry2, team))
 
-    create_input_fields(50, 88) # Red Team Fields
-    create_input_fields(720, 88) # Green Team Fields
-
-    entry_screen_window.update_idletasks()
+    create_input_fields(50, 88, "red") #Red Team Fields
+    create_input_fields(720, 88, "green") #Green Team Fields
 
     buttons = [
         (0, "F1\nEdit\nGame"),
@@ -212,23 +226,12 @@ def show_entry_screen(root):
         (1230, "F12\nClear\nGame")
     ]
 
-    # Function for buttons added here
+    #Function for buttons added here
     for x, text in buttons:
         btn = Button(frame, text=text, font=("Helvetica", 11), fg="#00B300", bg="#1C2920", relief="raised", command=lambda t=text: on_button_click(t))
         btn.place(x=x, y=710, width=120, height=120)
 
-    entry_screen_window.bind_all("<F1>", on_key_pressed)
-    entry_screen_window.bind_all("<F2>", on_key_pressed)
-    entry_screen_window.bind_all("<F3>", on_key_pressed)
-    entry_screen_window.bind_all("<F5>", on_key_pressed)
-    entry_screen_window.bind_all("<F7>", on_key_pressed)
-    entry_screen_window.bind_all("<F8>", on_key_pressed)
-    entry_screen_window.bind_all("<F10>", on_key_pressed)
-    entry_screen_window.bind_all("<F12>", on_key_pressed)
-
-    canvas.create_rectangle(0, 830, 1350, 870, fill="#808A87")  # Footer background
+    canvas.create_rectangle(0, 830, 1350, 870, fill="#808A87")
     canvas.create_text(675, 850, text="<Del> to Delete Player, <ins> to Manually Insert, or edit codename", font=("Helvetica", 12), fill="#DCDDDE")
-
     canvas.scale("all", 0, 0, 1.0, 1.0)
-
     entry_screen_window.protocol("WM_DELETE_WINDOW", root.destroy)
