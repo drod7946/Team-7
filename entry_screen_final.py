@@ -68,6 +68,9 @@ def show_entry_screen(root):
 
             if not player_id or player_id in player_dict:
                 continue
+            if not player_id.isdigit():
+                messagebox.showerror("Invalid Player ID", f"Player ID must be an integer. Invalid input: '{player_id}'")
+                continue
 
             db_name = get_player_codename(player_id)
             if db_name:
