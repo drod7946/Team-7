@@ -150,11 +150,11 @@ def show_play_action_display(countdown_window, player_dict):
                 return
             if id2 in ["43", "53"]:
                 base_hit_players.add(id1)
-                player_scores[id1] += 5
+                player_scores[id1] += 100
                 base_name = "Red Base" if id2 == "43" else "Green Base"
                 log = f"{player_dict[id1]['name']} hit {base_name} (+100)"
             else:
-                player_scores[id1] += 1
+                player_scores[id1] += 10
                 target_name = player_dict.get(id2, {}).get("name", f"ID {id2}")
                 log = f"{player_dict[id1]['name']} hit {target_name} (+10)"
 
