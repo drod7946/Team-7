@@ -6,20 +6,6 @@ from play_action_display import show_countdown
 from udp_utils import set_target_ip, get_target_ip
 from tkinter import simpledialog, messagebox
 
-
-# Database connection function
-#def connect_to_db():
-  #  try:
-        # Using keyword arguments for clarity, uncomment to activate credentials
-   #     connection = psycopg2.connect(
-     #       dbname="photon",
-          #  user="student",  # Uncommented
-          #  password="student",  # Uncommented
-          #  host="localhost",  # Uncommented
-          #  port="5432"  # Uncommented
-       # )
-       # return connection
-
 def connect_to_db():
     try:
         connection = psycopg2.connect("dbname=photon user=student password=student host=localhost port=5432")
@@ -58,14 +44,19 @@ def get_player_codename(player_id):
             cursor.close()
             connection.close()
 
-
 # ENTRY SCREEN UI
 
 def show_entry_screen(root):
     customtkinter.set_appearance_mode("dark")
     entry_screen_window = customtkinter.CTkToplevel(root)
     entry_screen_window.title("Entry Terminal")
-    entry_screen_window.geometry("1350x900")
+
+    screen_width = entry_screen_window.winfo_screenwidth()
+    screen_height = entry_screen_window.winfo_screenheight()
+    center_x = int(screen_width / 2 - 1350 / 2)
+    center_y = int(screen_height / 2 - 900 / 2)
+    entry_screen_window.geometry(f"1350x900+{center_x}+{center_y}")
+    entry_screen_window.update()
 
     entry_fields = []
     player_dict = {}
