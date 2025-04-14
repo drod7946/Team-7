@@ -41,7 +41,7 @@ def show_return(play_window):
 
     restart_window = tk.Toplevel()
     restart_window.title("Exit Game?")
-    window_width = 250
+    window_width = 300
     window_height = 100
     screen_width = restart_window.winfo_screenwidth()
     screen_height = restart_window.winfo_screenheight()
