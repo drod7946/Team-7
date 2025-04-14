@@ -98,7 +98,8 @@ def show_play_action_display(countdown_window, player_dict):
         green_total = 0
 
         canvas.create_text(100, 50, text="Red Team Scores", font=("Helvetica", 18, "bold"), fill="white", anchor="w", tags="team_labels")
-        for i, pid in enumerate(red_team_members, start=1):
+        sorted_red = sorted(red_team_members, key=lambda pid: player_scores[pid], reverse=True)
+        for i, pid in enumerate(sorted_red, start=1):
             player = player_dict[pid]
             label = f"{player['name']} [B]" if pid in base_hit_players else player["name"]
             score = player_scores[pid]
@@ -109,7 +110,8 @@ def show_play_action_display(countdown_window, player_dict):
         canvas.create_text(100, 50 + (len(red_team_members) + 1) * 40, text=f"Total Score: {red_total}", font=("Helvetica", 16, "bold"), fill="white", anchor="w", tags="team_labels")
 
         canvas.create_text(1300, 50, text="Green Team Scores", font=("Helvetica", 18, "bold"), fill="white", anchor="w", tags="team_labels")
-        for i, pid in enumerate(green_team_members, start=1):
+        sorted_green = sorted(green_team_members, key=lambda pid: player_scores[pid], reverse=True)
+        for i, pid in enumerate(sorted_green, start=1):
             player = player_dict[pid]
             label = f"{player['name']} [B]" if pid in base_hit_players else player["name"]
             score = player_scores[pid]
