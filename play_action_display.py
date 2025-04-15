@@ -156,9 +156,17 @@ def show_play_action_display(countdown_window, player_dict):
                 base_name = "Red Base" if id2 == "53" else "Green Base"
                 log = f"{player_dict[id1]['name']} hit {base_name} (+100)"
             else:
-                player_scores[id1] += 10
-                target_name = player_dict.get(id2, {}).get("name", f"ID {id2}")
-                log = f"{player_dict[id1]['name']} hit {target_name} (+10)"
+                team1 = player_dict.get(id1, {}).get("team", None)
+                team2 = player_dict.get(id2, {}).get("team", None)
+
+                if team1 == team2:
+                    player_scores[id1] -= 10
+                    target_name = player_dict.get(id2, {}).get("name", f"ID {id2}")
+                    log = f"{player_dict[id1]['name']} hit {target_name} (Friendly Fire, -10)"
+                else:
+                    player_scores[id1] += 10 
+                    target_name = player_dict.get(id2, {}).get("name", f"ID {id2}")
+                    log = f"{player_dict[id1]['name']} hit {target_name} (+10)"
 
             draw_team_names()
             update_team_highlight()
