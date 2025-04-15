@@ -91,7 +91,7 @@ def show_entry_screen(root):
             entry2.delete(0, tk.END)
             entry2.insert(0, codename)
             entry2.config(state="readonly")
-            player_dict[player_id] = {"name": codename, "team": team, "equipment_id": equipment_id}
+            player_dict[equipment_id] = {"name": codename, "team": team, "player_id": player_id}
 
     def manual_insert():
         player_id = simpledialog.askstring("Manual Insert", "Enter Player ID:")

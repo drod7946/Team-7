@@ -88,9 +88,9 @@ def show_play_action_display(countdown_window, player_dict):
     canvas.create_window(screen_width // 2, screen_height // 2, window=action_box)
 
     base_hit_players = set()
-    player_scores = {pid: 0 for pid in player_dict}
-    red_team_members = [pid for pid, p in player_dict.items() if p["team"] == "red"]
-    green_team_members = [pid for pid, p in player_dict.items() if p["team"] == "green"]
+    player_scores = {eid: 0 for eid in player_dict}
+    red_team_members = [eid for eid, p in player_dict.items() if p["team"] == "red"]
+    green_team_members = [eid for eid, p in player_dict.items() if p["team"] == "green"]
 
     def draw_team_names():
         canvas.delete("team_labels")
