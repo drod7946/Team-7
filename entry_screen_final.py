@@ -6,6 +6,8 @@ from play_action_display import show_countdown
 from udp_utils import set_target_ip, get_target_ip
 from tkinter import simpledialog, messagebox
 
+assigned_equipment_ids = {}
+
 def connect_to_db():
     try:
         connection = psycopg2.connect("dbname=photon user=student password=student host=localhost port=5432")
@@ -87,9 +89,13 @@ def show_entry_screen(root):
             entry2.delete(0, tk.END)
             entry2.insert(0, codename)
             entry2.config(state="readonly")
-            equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
-            if not equipment_id:
+            if player_id in assigned_equipment_ids:
+                equipment_id = assigned_equipment_ids[player_id]
+            else:
+                equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
+                if not equipment_id:
                     continue
+                assigned_equipment_ids[player_id] = equipment_id
             player_dict[equipment_id] = {"name": codename, "team": team, "player_id": player_id}
 
     def manual_insert():
