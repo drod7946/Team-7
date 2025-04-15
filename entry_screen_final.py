@@ -83,11 +83,15 @@ def show_entry_screen(root):
             else:
                 insert_player(player_id, codename)
 
+            equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
+            if not equipment_id:
+                continue
+
             entry2.config(state="normal")
             entry2.delete(0, tk.END)
             entry2.insert(0, codename)
             entry2.config(state="readonly")
-            player_dict[player_id] = {"name": codename, "team": team}
+            player_dict[player_id] = {"name": codename, "team": team, "equipment_id": equipment_id}
 
     def manual_insert():
         player_id = simpledialog.askstring("Manual Insert", "Enter Player ID:")
@@ -103,6 +107,9 @@ def show_entry_screen(root):
             insert_player(player_id, codename)
 
         player_dict[player_id] = {"name": codename, "team": team}
+        equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
+        if not equipment_id:
+            continue
 
         for entry1, entry2, t in entry_fields:
             if entry1.get().strip() == "":
