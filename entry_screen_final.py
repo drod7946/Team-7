@@ -75,17 +75,22 @@ def show_entry_screen(root):
             db_name = get_player_codename(player_id)
             if db_name:
                 codename = db_name
+                equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
+                if not equipment_id:
+                    continue
             elif not codename:
                 codename = simpledialog.askstring("New Player", f"Enter codename for new player ID: {player_id}")
                 if not codename:
                     continue
                 insert_player(player_id, codename)
+                equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
+                if not equipment_id:
+                    continue
             else:
                 insert_player(player_id, codename)
-
-            equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
-            if not equipment_id:
-                continue
+                equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
+                if not equipment_id:
+                    continue
 
             entry2.config(state="normal")
             entry2.delete(0, tk.END)
