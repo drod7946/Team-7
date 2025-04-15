@@ -109,7 +109,7 @@ def show_entry_screen(root):
         player_dict[player_id] = {"name": codename, "team": team}
         equipment_id = simpledialog.askstring("Equipment ID", f"Enter equipment ID for Player {player_id}:")
         if not equipment_id:
-            continue
+            return
 
         for entry1, entry2, t in entry_fields:
             if entry1.get().strip() == "":
