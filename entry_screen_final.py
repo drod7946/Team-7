@@ -68,7 +68,9 @@ def show_entry_screen(root):
             player_id = entry1.get().strip()
             codename = entry2.get().strip()
 
-            if not player_id or player_id in player_dict:
+            if not player_id:
+                continue
+            if player_id in assigned_equipment_ids:
                 continue
             if not player_id.isdigit():
                 messagebox.showerror("Invalid Player ID", f"Player ID must be an integer. Invalid input: '{player_id}'")
