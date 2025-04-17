@@ -147,7 +147,7 @@ def show_entry_screen(root):
 
     def on_button_click(text):
         print(f"Button {text} clicked")
-        if text == "F5\nPreEntered\nGames":
+        if text == "F5\nStart\nGame":
             handle_player_entry()
             show_countdown(player_dict)
         elif text == "F12\nClear\nGame":
@@ -224,13 +224,13 @@ def show_entry_screen(root):
     create_input_fields(720, 88, "green") #Green Team Fields
 
     buttons = [
-        (0, "F1\nEdit\nGame"),
-        (120, "F2\nGame\nParameters"),
-        (318, "F3\nStart\nGame"),
-        (516, "F5\nPreEntered\nGames"),
+        (0, "F1"),
+        (120, "F2"),
+        (318, "F3"),
+        (516, "F5\nStart\nGame"),
         (714, "F7\nChange\nIP Address"),
-        (912, "F8\nView\nGame"),
-        (1110, "F10\nFlick\nSync"),
+        (912, "F8"),
+        (1110, "F10"),
         (1230, "F12\nClear\nGame")
     ]
 
